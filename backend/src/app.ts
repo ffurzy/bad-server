@@ -9,6 +9,7 @@ import { DB_ADDRESS } from './config'
 import errorHandler from './middlewares/error-handler'
 import serveStatic from './middlewares/serverStatic'
 import routes from './routes'
+import { apiLimiter } from './middlewares/rateLimiter'
 
 const { PORT = 3000 } = process.env
 const app = express()
@@ -16,6 +17,7 @@ const app = express()
 app.use(cookieParser())
 
 app.use(cors())
+app.use(apiLimiter)
 // app.use(cors({ origin: ORIGIN_ALLOW, credentials: true }));
 // app.use(express.static(path.join(__dirname, 'public')));
 
