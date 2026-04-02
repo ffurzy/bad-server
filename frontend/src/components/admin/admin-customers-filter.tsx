@@ -19,7 +19,6 @@ export default function AdminFilterCustomers() {
         customersSelector.selectFilterOption
     )
      
-
     const handleFilter = (filters: Record<string, any>) => {
         dispatch(updateFilter({ ...filters }))
         const queryParams: { [key: string]: string } = {}
