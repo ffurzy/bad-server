@@ -12,6 +12,7 @@ import { selectOrderByNumber } from '../../services/selector'
 import { ordersActions } from '../../services/slice/orders'
 import { getOrderByNumber } from '../../services/slice/orders/thunk'
 import { adapterOrderFromServer } from '../../utils/adapterOrderFromServer'
+import sanitizeCommentHtml from '../../utils/sanitize-comment-html'
 import { Preloader } from '../preloader'
 import styles from './admin.module.scss'
 
@@ -103,7 +104,7 @@ export default function AdminOrderDetail() {
                     <>
                         <div
                             dangerouslySetInnerHTML={{
-                                __html: dataInfo.comment,
+                                __html: sanitizeCommentHtml(dataInfo.comment),
                             }}
                         />
                     </>
