@@ -55,6 +55,7 @@ const types = [
     'image/gif',
     'image/svg+xml',
 ]
+const MAX_UPLOAD_FILE_SIZE_BYTES = 5 * 1024 * 1024
 
 const fileFilter = (
     _req: Request,
@@ -68,4 +69,11 @@ const fileFilter = (
     return cb(null, true)
 }
 
-export default multer({ storage, fileFilter })
+export default multer({
+    storage,
+    fileFilter,
+    limits: {
+        fileSize: MAX_UPLOAD_FILE_SIZE_BYTES,
+        files: 1,
+    },
+})
