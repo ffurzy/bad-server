@@ -13,19 +13,21 @@ import { apiLimiter } from './middlewares/rateLimiter'
 
 const { PORT = 3000 } = process.env
 const app = express()
+const allowedOrigins = ORIGIN_ALLOW.split(',')
+    .map((item) => item.trim())
+    .filter(Boolean)
+
 const corsOptions: cors.CorsOptions = {
     origin: (origin, callback) => {
-        // allow server-to-server and CLI tools without Origin header
         if (!origin) {
-            return callback(null, true)
+            return callback(
+                null,
+                allowedOrigins[0] ?? 'http://localhost:5173'
+            )
         }
 
-        const allowedOrigins = ORIGIN_ALLOW.split(',')
-            .map((item) => item.trim())
-            .filter(Boolean)
-
         if (allowedOrigins.includes(origin)) {
-            return callback(null, true)
+            return callback(null, origin)
         }
 
         return callback(new Error('Not allowed by CORS'))
