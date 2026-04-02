@@ -17,3 +17,13 @@ export const authLimiter = rateLimit({
         message: 'Слишком много попыток авторизации, попробуйте попытку позже',
     },
 })
+
+export const customerRouteLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 25,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        message: 'Слишком много запросов, повторите попытку позже',
+    },
+})
