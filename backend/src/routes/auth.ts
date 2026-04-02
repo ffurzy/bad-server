@@ -9,10 +9,15 @@ import {
     updateCurrentUser,
 } from '../controllers/auth'
 import auth from '../middlewares/auth'
+import { generateCsrfToken } from '../middlewares/csrf'
 import { authLimiter } from '../middlewares/rateLimiter'
 
 const authRouter = Router()
 
+authRouter.get('/csrf-token', (req, res) => {
+    const csrfToken = generateCsrfToken(req, res)
+    res.status(200).json({ csrfToken })
+})
 authRouter.get('/user', auth, getCurrentUser)
 authRouter.patch('/me', auth, updateCurrentUser)
 authRouter.get('/user/roles', auth, getCurrentUserRoles)
