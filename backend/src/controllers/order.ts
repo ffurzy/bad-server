@@ -3,7 +3,7 @@ import { FilterQuery, Error as MongooseError, Types } from 'mongoose'
 import sanitizeHtml from 'sanitize-html'
 import BadRequestError from '../errors/bad-request-error'
 import NotFoundError from '../errors/not-found-error'
-import Order, { IOrder } from '../models/order'
+import Order, { IOrder, StatusType } from '../models/order'
 import Product, { IProduct } from '../models/product'
 import User from '../models/user'
 import escapeRegExp from '../utils/escapeRegExp'
@@ -34,7 +34,15 @@ export const getOrders = async (
 
         const filters: FilterQuery<Partial<IOrder>> = {}
 
-        if (status && typeof status === 'string') {
+        if (status !== undefined) {
+            if (
+                typeof status !== 'string' ||
+                !Object.values(StatusType).includes(status as StatusType)
+            ) {
+                return next(
+                    new BadRequestError('Некорректный параметр status')
+                )
+            }
             filters.status = status
         }
 
