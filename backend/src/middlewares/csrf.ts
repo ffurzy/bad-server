@@ -5,7 +5,7 @@ export const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
     getSecret: () => process.env.CSRF_SECRET || 'csrf-secret-dev',
     getSessionIdentifier: (req: Request) =>
         `${req.ip}-${req.headers['user-agent'] || 'unknown'}`,
-    cookieName: 'csrf-token',
+    cookieName: '_csrf',
     cookieOptions: {
         httpOnly: false,
         sameSite: 'lax',
